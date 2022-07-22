@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+
+  percona:
+    image: percona:8
+    restart: always
+    container_name: percona
+    env_file: configuration.env
+    volumes:
+      - percona_data:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 3306:3306
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    container_name: postgres
+    env_file: configuration.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d:ro
+    ports:
+      - 5432:5432
+
+volumes:
+  percona_data: {}
+  postgres_data: {}
